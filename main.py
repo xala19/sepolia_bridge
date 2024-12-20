@@ -94,17 +94,12 @@ def process_account(private_key, network_slug, amount_in_ether, slippage):
         ).call()
 
         min_amount_out = int(amount_out * slippage)
-
-        if network_slug == NetworkSlug.ARBITRUM_ONE:
-            to_address = from_address
-            refund_address = from_address
-        else:
-            to_address = from_address
-            refund_address = from_address
+        to_address = from_address
+        refund_address = from_address
 
         latest_block = web3.eth.get_block('latest')
         base_fee = latest_block['baseFeePerGas']
-        max_priority_fee_per_gas = web3.to_wei(1, 'gwei')  # Приоритетная плата (можно настроить)
+        max_priority_fee_per_gas = web3.to_wei(1, 'gwei')  
         max_fee_per_gas = base_fee + max_priority_fee_per_gas
         logger.info(
             f"baseFee: {base_fee}, maxPriorityFeePerGas: {max_priority_fee_per_gas}, maxFeePerGas: {max_fee_per_gas}")
